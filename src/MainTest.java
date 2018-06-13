@@ -42,21 +42,23 @@ public class MainTest {
 	
 	private String learningFromFile() throws SocketException,ServerException,IOException,ClassNotFoundException{
 		out.writeObject(3);
-		
-		System.out.print("Nome tabella:");
+		out.flush();
+		System.out.print("Nome tablella:");
 		String tabName=Keyboard.readString();
 		out.writeObject(tabName);
-		System.out.print("Numero iterate:");
-		int k=Keyboard.readInt();
-		out.writeObject(k);
+		System.out.print("Nome file:");
+		String fileName=Keyboard.readString();
+		out.writeObject(fileName+".dmp");
 		String result = (String)in.readObject();
 		if(result.equals("OK"))
 			return (String)in.readObject();
 		else throw new ServerException(result);
 		
 	}
+	//0 nome tabella
 	private void storeTableFromDb() throws SocketException,ServerException,IOException,ClassNotFoundException{
-		out.writeObject(0);
+		out.writeObject(0);//change
+		out.flush();
 		System.out.print("Nome tabella:");
 		String tabName=Keyboard.readString();
 		out.writeObject(tabName);
@@ -65,25 +67,29 @@ public class MainTest {
 			throw new ServerException(result);
 		
 	}
+	//1 numero cluster
 	private String learningFromDbTable() throws SocketException,ServerException,IOException,ClassNotFoundException{
 		out.writeObject(1);
+		out.flush();
 		System.out.print("Numero di cluster:");
 		int k=Keyboard.readInt();
 		out.writeObject(k);
 		String result = (String)in.readObject();
 		if(result.equals("OK")){
-			System.out.println("Clustering output:"+in.readObject());
+			//System.out.println("Clustering output:"+in.readObject());
 			return (String)in.readObject();
 		}
 		else throw new ServerException(result);
 		
 		
 	}
-	
+	//2 storecluster
 	private void storeClusterInFile() throws SocketException,ServerException,IOException,ClassNotFoundException{
 		out.writeObject(2);
-		
-		
+		out.flush();
+		System.out.print("Nome file:");
+		String tabName=Keyboard.readString();
+		out.writeObject(tabName+".dmp");
 		String result = (String)in.readObject();
 		if(!result.equals("OK"))
 			 throw new ServerException(result);
