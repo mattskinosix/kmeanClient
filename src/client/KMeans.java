@@ -59,7 +59,6 @@ public class KMeans {
 		iniziale = new JFrame("KMeans");
 		Container c = iniziale.getContentPane();
 		iniziale.setLayout(new GridLayout(1, 1));
-		System.out.println("OK");
 		KMeans k = new KMeans();
 		Dialog1 dialog1 = k.new Dialog1(iniziale, "Connessione Server", true);
 		dialog1.addWindowListener(new WindowAdapter() {
@@ -69,7 +68,6 @@ public class KMeans {
 		});
 		dialog1.setSize(1000, 100);
 		dialog1.setVisible(true);
-		System.out.println("OK");
 		iniziale.setSize(500, 600);
 		iniziale.setVisible(true);
 		k.new TabbelPane();
@@ -107,7 +105,6 @@ public class KMeans {
 						nometab=panelDB.tableText.getText();
 						out.writeObject(nometab);
 						String ris=(String) in.readObject();
-						System.out.println(ris);
 						if(ris.equals("OK")) {
 							out.writeObject(1);
 							k=Integer.parseInt(panelDB.kText.getText());
@@ -133,21 +130,19 @@ public class KMeans {
 				String nomefile;
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					
 						try {
 							out.writeObject(3);
-							nomefile=panelFile.tableText.getText();
+							nomefile=panelFile.tableText.getText()+".txt";
 							out.writeObject(nomefile);
 							String ok= (String) in.readObject();
 							if(ok.equals("OK")) {
 								panelFile.clusterOutput.setText((String)in.readObject());
+							}else {
+								panelFile.clusterOutput.setText("Nome file errato,controlla di non aver inserito l'estensione");
 							}
 						} catch (IOException | ClassNotFoundException e1) {
 							e1.printStackTrace();
 						}
-						
-					
-					
 				}
 				
 			}
