@@ -132,7 +132,7 @@ public class KMeans {
 				public void actionPerformed(ActionEvent e) {
 						try {
 							out.writeObject(3);
-							nomefile=panelFile.tableText.getText()+".txt";
+							nomefile=panelFile.tableText.getText();
 							out.writeObject(nomefile);
 							String ok= (String) in.readObject();
 							if(ok.equals("OK")) {
@@ -168,8 +168,10 @@ public class KMeans {
 					downPanel.setLayout(new FlowLayout());
 					upPanel.add(labelTable);
 					upPanel.add(tableText);
-					upPanel.add(labelk);
-					upPanel.add(kText);
+					if(buttonName.equals("mine")) {
+						upPanel.add(labelk);
+						upPanel.add(kText);
+					}
 					centralPanel.add(clusterOutput);
 					executeButton=new JButton(buttonName);
 					downPanel.add(executeButton);
