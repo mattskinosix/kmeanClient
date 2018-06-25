@@ -42,6 +42,11 @@ public class KMeans {
 	private int port;
 	static JTabbedPane schermata;
 	public void init() throws IOException {
+		iniziale.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent ev) {
+				System.exit(0);
+			}
+		});
 		schermata = new JTabbedPane();
 		InetAddress addr = InetAddress.getByName(ip); // ip
 		System.out.println("addr = " + addr);
@@ -113,13 +118,14 @@ public class KMeans {
 							if(ris.equals("OK")) {
 								panelDB.clusterOutput.setText((String)in.readObject());
 							}else {
-								panelDB.clusterOutput.setText("Numero cluster troppo elevato");
+								panelDB.clusterOutput.setText(ris);
 							}
 						}else {						
-							panelDB.clusterOutput.setText("Nome tabella errato");
+							panelDB.clusterOutput.setText(ris);
 						}
 					} catch (IOException | ClassNotFoundException e1) {
 						e1.printStackTrace();
+						panelDB.clusterOutput.setText("Si e' verificato un errore.");
 					}
 					//rivedere eccezioni e eventuale tastp salvafile
 				}
