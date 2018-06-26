@@ -31,7 +31,7 @@ import javax.swing.JTextField;
  *
  */
 @SuppressWarnings("serial")
-public class KMeans {
+class KMeans {
 	/**
 	 * Oggetto che indica il flusso in uscita dal client.
 	 */
@@ -67,21 +67,22 @@ public class KMeans {
 	 * @throws IOException
 	 *             Eccezzione sollevata per problemi dell I/O.
 	 */
-	public void init() throws IOException {
-		iniziale.addWindowListener(new WindowAdapter() {
-			public void windowClosing(WindowEvent ev) {
-				System.exit(0);
-			}
-		});
+	private void init() throws IOException {
 		schermata = new JTabbedPane();
 		InetAddress addr = InetAddress.getByName(ip); // ip
-		System.out.println("addr = " + addr);
 		Socket socket = new Socket(addr, port); // Port
-		System.out.println(socket);
 		out = new ObjectOutputStream(socket.getOutputStream());
 		in = new ObjectInputStream(socket.getInputStream());
 		// stream con richieste del client
-		System.out.println("OK---connesso");
+		iniziale.addWindowListener(new WindowAdapter() {
+			public void windowClosing(WindowEvent ev) {
+				try {
+					socket.close();
+				} catch (IOException e) {
+				}
+				System.exit(0);
+			}
+		});
 		iniziale.add(schermata);
 
 	}
@@ -101,6 +102,7 @@ public class KMeans {
 		dialog.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent ev) {
 				System.exit(0);
+
 			}
 		});
 		dialog.setSize(1000, 100);
@@ -117,7 +119,7 @@ public class KMeans {
 	 * @author Mirko.
 	 *
 	 */
-	public class TabbelPane extends JPanel {
+	private class TabbelPane extends JPanel {
 		/**
 		 * Oggetto di tipo JPanelCluster, indica la struttura interna al frame per
 		 * quando riguarda l'utilizzo del database.
@@ -146,7 +148,8 @@ public class KMeans {
 			icon.setImage(newimage);
 			schermata.addTab("file", icon, panelFile);
 			setVisible(true);
-
+			// panelDB.getRootPane().setDefaultButton(panelDB.executeButton);
+			// panelFile.getRootPane().setDefaultButton(panelFile.executeButton);
 		}
 
 		/**
@@ -156,15 +159,15 @@ public class KMeans {
 		 * @author Mirko.
 		 *
 		 */
-		class EventFromDb implements ActionListener {
+		private class EventFromDb implements ActionListener {
 			/**
 			 * Nome della tabella del database,
 			 */
-			String nometab;
+			private String nometab;
 			/**
 			 * Numero di cluster da generare.
 			 */
-			int k;
+			private int k;
 
 			@Override
 			/**
@@ -194,9 +197,7 @@ public class KMeans {
 					e1.printStackTrace();
 					panelDB.clusterOutput.setText("Si e' verificato un errore.");
 				}
-				// rivedere eccezioni e eventuale tastp salvafile
 			}
-
 		}
 
 		/**
@@ -206,11 +207,11 @@ public class KMeans {
 		 * @author Mirko.
 		 *
 		 */
-		class EventFromFile implements ActionListener {
+		private class EventFromFile implements ActionListener {
 			/**
 			 * Indica il nome del file.
 			 */
-			String nomefile;
+			private String nomefile;
 
 			@Override
 			/**
@@ -242,7 +243,7 @@ public class KMeans {
 		 * @author Mirko.
 		 *
 		 */
-		class JPanelCluster extends JPanel {
+		private class JPanelCluster extends JPanel {
 			/**
 			 * 
 			 */
@@ -250,11 +251,11 @@ public class KMeans {
 			/**
 			 * Oggetto di tipo JLabel.
 			 */
-			private JLabel labelk = new JLabel("K");
+			private final JLabel labelk = new JLabel("K");
 			/**
 			 * Oggetto di tipo JLabel.
 			 */
-			private JLabel labelTable = new JLabel("Table");
+			private final JLabel labelTable = new JLabel("Table");
 			/**
 			 * Oggetto di tipo JTextField.
 			 */
@@ -284,8 +285,9 @@ public class KMeans {
 			 *            associare il rispettivo listener al bottone con nome passato come
 			 *            paramtero.
 			 */
-			JPanelCluster(String buttonName, java.awt.event.ActionListener a) {
+			private JPanelCluster(String buttonName, java.awt.event.ActionListener a) {
 				this.setLayout(new BorderLayout());
+				clusterOutput.setEditable(false);
 				JPanel upPanel = new JPanel();
 				upPanel.setLayout(new FlowLayout());
 				JPanel centralPanel = new JPanel();
@@ -320,20 +322,20 @@ public class KMeans {
 	 * @author Mirko.
 	 *
 	 */
-	public class Dialog1 extends JDialog {
+	private class Dialog1 extends JDialog {
 		/**
 		* 
 		*/
 		private static final long serialVersionUID = 1L;
-		JPanel jPanel1 = new JPanel();
-		JPanel jPanel2 = new JPanel();
-		JButton jButton1 = new JButton();
-		JTextField jtext = new JTextField(10);
-		JTextField jtext2 = new JTextField(10);
-		JLabel label = new JLabel("Insierisci ip");
-		JLabel label2 = new JLabel("Insierisci porta");
+		private JPanel jPanel1 = new JPanel();
+		private JPanel jPanel2 = new JPanel();
+		private JButton jButton1 = new JButton();
+		private JTextField jtext = new JTextField(10);
+		private JTextField jtext2 = new JTextField(10);
+		private final JLabel label = new JLabel("Insierisci ip");
+		private final JLabel label2 = new JLabel("Insierisci porta");
 
-		public Dialog1(Frame parent, String title, boolean modal) {
+		private Dialog1(Frame parent, String title, boolean modal) {
 			super(parent, title, modal);
 			try {
 				jbInit();
@@ -341,10 +343,6 @@ public class KMeans {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-		}
-
-		public Dialog1() {
-			this(null, "", false);
 		}
 
 		private void jbInit() throws Exception {
@@ -361,10 +359,10 @@ public class KMeans {
 			jPanel2.add(label2);
 			jPanel2.add(jtext2);
 			jButton1.addActionListener(new ServerListener());
-
+			getRootPane().setDefaultButton(jButton1);
 		}
 
-		public class ServerListener implements ActionListener {
+		private class ServerListener implements ActionListener {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {

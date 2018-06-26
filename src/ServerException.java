@@ -5,9 +5,8 @@
  * @author mirko
  *
  */
+@SuppressWarnings("serial")
 public class ServerException extends Exception {
-
-	private static final long serialVersionUID = 1L;
 
 	/**
 	 * Costruttore che utilizza il costruttore della superclasse passando come
