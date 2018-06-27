@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Frame;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.Toolkit;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -102,13 +103,13 @@ class KMeans {
 		dialog.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent ev) {
 				System.exit(0);
-
 			}
 		});
 		dialog.setSize(1000, 100);
-		dialog.setVisible(true);
+		dialog.setVisible(true);	
 		iniziale.setSize(500, 600);
 		iniziale.setVisible(true);
+		iniziale.setLocationRelativeTo(null);
 		k.new TabbelPane();
 	}
 
@@ -148,8 +149,6 @@ class KMeans {
 			icon.setImage(newimage);
 			schermata.addTab("file", icon, panelFile);
 			setVisible(true);
-			// panelDB.getRootPane().setDefaultButton(panelDB.executeButton);
-			// panelFile.getRootPane().setDefaultButton(panelFile.executeButton);
 		}
 
 		/**
@@ -373,6 +372,7 @@ class KMeans {
 			try {
 				jbInit();
 				pack();
+				setLocation((Toolkit.getDefaultToolkit().getScreenSize().width)/3 - getWidth()/2, (Toolkit.getDefaultToolkit().getScreenSize().height)/3 - getHeight()/2);
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -386,6 +386,7 @@ class KMeans {
 			buttonSend.setText("Invia");
 			buttonSend.setSize(100, 100);
 			getContentPane().setLayout(new FlowLayout());
+			setResizable(false);
 			getContentPane().add(jPanel1);
 			getContentPane().add(jPanel2);
 			getContentPane().add(buttonSend);
@@ -404,7 +405,7 @@ class KMeans {
 		 * CLasse che indica il listener che permette di ascoltare l'evento dovuto alla
 		 * pressione del pulsante buttonSend
 		 * 
-		 * @author mirko
+		 * @author Mirko.
 		 *
 		 */
 		private class ServerListener implements ActionListener {
