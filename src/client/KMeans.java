@@ -110,6 +110,8 @@ class KMeans {
 		iniziale.setSize(500, 600);
 		iniziale.setVisible(true);
 		iniziale.setLocationRelativeTo(null);
+		ImageIcon img = new ImageIcon("K_icon.png");
+		iniziale.setIconImage(img.getImage());
 		k.new TabbelPane();
 	}
 
