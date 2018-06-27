@@ -98,7 +98,7 @@ class KMeans {
 		iniziale = new JFrame("KMeans");
 		iniziale.setLayout(new GridLayout(1, 1));
 		KMeans k = new KMeans();
-		Dialog1 dialog = k.new Dialog1(iniziale, "Connessione Server", true);
+		Dialog dialog = k.new Dialog(iniziale, "Connessione Server", true);
 		dialog.addWindowListener(new WindowAdapter() {
 			public void windowClosing(WindowEvent ev) {
 				System.exit(0);
@@ -322,20 +322,53 @@ class KMeans {
 	 * @author Mirko.
 	 *
 	 */
-	private class Dialog1 extends JDialog {
+	private class Dialog extends JDialog {
 		/**
-		* 
-		*/
-		private static final long serialVersionUID = 1L;
+		 * Indica il JPanel dove si trovano i componenti per chiedere l'ip
+		 */
 		private JPanel jPanel1 = new JPanel();
+		/**
+		 * Indica il JPanel dove si trovano i componenti per chiedere porta.
+		 */
 		private JPanel jPanel2 = new JPanel();
-		private JButton jButton1 = new JButton();
-		private JTextField jtext = new JTextField(10);
-		private JTextField jtext2 = new JTextField(10);
-		private final JLabel label = new JLabel("Insierisci ip");
-		private final JLabel label2 = new JLabel("Insierisci porta");
+		/**
+		 * Indica il JButton che permette di prelevare le informazioni inserite nel
+		 * textip e textport.
+		 */
+		private JButton buttonSend = new JButton();
+		/**
+		 * Indica un JTextField dove viene presa la stringa dell'ip come input
+		 */
+		private JTextField textip = new JTextField(10);
+		/**
+		 * Indica un JTextField dove viene presa la stringa della porta come input
+		 */
+		private JTextField textport = new JTextField(10);
+		/**
+		 * Indica la label che descrive la funzione della casella di testo per ip
+		 */
+		private final JLabel labelIp = new JLabel("Insierisci ip");
+		/**
+		 * Indica la label che descrive la funzione della casella di testo per la porta
+		 */
+		private final JLabel labelPorta = new JLabel("Insierisci porta");
+		/**
+		 * Indica la label in cui verra' visualizzato il messaggio di errore in caso di
+		 * indirizzo ip o port errati.
+		 */
+		private final JLabel labeleccez = new JLabel();
 
-		private Dialog1(Frame parent, String title, boolean modal) {
+		/**
+		 * Costruttore della finestra di dialogo per acquisizione ip e porta
+		 * 
+		 * @param parent
+		 *            Frame al quale deve essere associato
+		 * @param title
+		 *            Titolo della finestra di dialogo
+		 * @param modal
+		 *            Modalità con il quale la finestra viene aperta
+		 */
+		private Dialog(Frame parent, String title, boolean modal) {
 			super(parent, title, modal);
 			try {
 				jbInit();
@@ -345,34 +378,52 @@ class KMeans {
 			}
 		}
 
-		private void jbInit() throws Exception {
-			jButton1.setText("Invia");
-			jButton1.setSize(100, 100);
+		/**
+		 * Inizializza la finestra di dialogo
+		 * 
+		 */
+		private void jbInit() {
+			buttonSend.setText("Invia");
+			buttonSend.setSize(100, 100);
 			getContentPane().setLayout(new FlowLayout());
 			getContentPane().add(jPanel1);
 			getContentPane().add(jPanel2);
-			getContentPane().add(jButton1);
+			getContentPane().add(buttonSend);
 			jPanel1.setLayout(new FlowLayout());
-			jPanel1.add(label);
-			jPanel1.add(jtext);
+			jPanel1.add(labelIp);
+			jPanel1.add(textip);
 			jPanel2.setLayout(new FlowLayout());
-			jPanel2.add(label2);
-			jPanel2.add(jtext2);
-			jButton1.addActionListener(new ServerListener());
-			getRootPane().setDefaultButton(jButton1);
+			jPanel2.add(labelPorta);
+			jPanel2.add(textport);
+			jPanel2.add(labeleccez);
+			buttonSend.addActionListener(new ServerListener());
+			getRootPane().setDefaultButton(buttonSend);
 		}
 
+		/**
+		 * CLasse che indica il listener che permette di ascoltare l'evento dovuto alla
+		 * pressione del pulsante buttonSend
+		 * 
+		 * @author mirko
+		 *
+		 */
 		private class ServerListener implements ActionListener {
-
+			/**
+			 * Override del metodo actionPerformed
+			 * 
+			 * @param arg0
+			 *            indica evento ascoltato
+			 */
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				ip = jtext.getText();
-				port = Integer.parseInt(jtext2.getText());
+
 				try {
+					ip = textip.getText();
+					port = Integer.parseInt(textport.getText());
 					init();
 					dispose();
-				} catch (IOException e) {
-					e.printStackTrace();
+				} catch (IOException | IllegalArgumentException e) {
+					labeleccez.setText("Indirizzo ip, o port, errati. Riprova.");
 
 				}
 			}
