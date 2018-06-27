@@ -112,6 +112,7 @@ class KMeans {
 		iniziale.setLocationRelativeTo(null);
 		ImageIcon img = new ImageIcon("K_icon.png");
 		iniziale.setIconImage(img.getImage());
+		
 		k.new TabbelPane();
 	}
 
@@ -375,6 +376,8 @@ class KMeans {
 				jbInit();
 				pack();
 				setLocation((Toolkit.getDefaultToolkit().getScreenSize().width)/3 - getWidth()/2, (Toolkit.getDefaultToolkit().getScreenSize().height)/3 - getHeight()/2);
+				ImageIcon img = new ImageIcon("connessione.png");
+				setIconImage(img.getImage());
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
